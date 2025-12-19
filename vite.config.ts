@@ -1,6 +1,6 @@
-import fs from "fs";
-import { resolve } from "path";
 import { defineConfig } from "vite";
+import { resolve } from "path";
+import * as fs from "fs";
 
 function getHtmlPages(): Record<string, string> {
   const dir = resolve(__dirname, "src/pages");
@@ -8,7 +8,7 @@ function getHtmlPages(): Record<string, string> {
   const input: Record<string, string> = {};
   files.forEach((f) => {
     const name = f.replace(".html", "");
-    input[name] = resolve(dir, "pages", f);
+    input[name] = resolve(dir, f); // 경로는 dir + 파일명
   });
   return input;
 }
@@ -24,5 +24,5 @@ export default defineConfig({
       },
     },
   },
-  base: "/local/", // <-- GitHub Pages repo 이름
+  base: "/local/", // GitHub Pages repo 이름
 });
