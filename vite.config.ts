@@ -1,23 +1,28 @@
-import { defineConfig } from "vite";
-import Pages from "vite-plugin-pages";
+import fs from "fs";
 import { resolve } from "path";
+import { defineConfig } from "vite";
+
+function getHtmlPages(): Record<string, string> {
+  const dir = resolve(__dirname, "src/pages");
+  const files = fs.readdirSync(dir).filter((f) => f.endsWith(".html"));
+  const input: Record<string, string> = {};
+  files.forEach((f) => {
+    const name = f.replace(".html", "");
+    input[name] = resolve(dir, "pages", f);
+  });
+  return input;
+}
 
 export default defineConfig({
-  plugins: [
-    Pages({
-      dirs: "src/pages", // 페이지 HTML 파일 위치
-      extensions: ["html"], // HTML 파일만 처리
-    }),
-  ],
-  root: "src", // 개발 서버 기준 폴더
+  root: "src",
   build: {
-    outDir: "../dist", // 빌드 결과물 위치
+    outDir: "../dist",
     rollupOptions: {
       input: {
-        main: resolve(__dirname, "src/index.html"), // 루트 index.html
-        pages: resolve(__dirname, "src/pages/index.html"), // 실제 페이지
+        main: resolve(__dirname, "src/index.html"),
+        ...getHtmlPages(),
       },
     },
   },
-  base: "/local/",
+  base: "/local/", // <-- GitHub Pages repo 이름
 });
