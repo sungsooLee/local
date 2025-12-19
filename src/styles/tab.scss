@@ -1,0 +1,31 @@
+.tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  & > .tabs_menu {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    & > [role="tab"] {
+      flex: 1;
+      padding: 0.5rem 1rem;
+      border: none;
+      background: #eee;
+      cursor: pointer;
+      &:focus {
+        outline: 2px solid #007acc;
+      }
+      &[aria-selected="true"] {
+        background: #007acc;
+        color: white;
+        font-weight: bold;
+      }
+    }
+  }
+
+  [role="tabpanel"] {
+    padding: 1rem;
+    border: 1px solid #ccc;
+  }
+}

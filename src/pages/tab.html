@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tab</title>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="tabs" role="tablist" aria-label="Sample Tabs">
+        <div class="tabs_menu">
+          <button
+            role="tab"
+            aria-selected="true"
+            aria-controls="panel1"
+            id="tab1"
+            tabindex="0"
+          >
+            Tab 1
+          </button>
+          <button
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel2"
+            id="tab2"
+            tabindex="-1"
+          >
+            Tab 2
+          </button>
+          <button
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel3"
+            id="tab3"
+            tabindex="-1"
+          >
+            Tab 3
+          </button>
+        </div>
+
+        <div id="panel1" role="tabpanel" aria-labelledby="tab1">
+          <p>Content for Tab 1</p>
+        </div>
+        <div id="panel2" role="tabpanel" aria-labelledby="tab2" hidden>
+          <p>Content for Tab 2</p>
+        </div>
+        <div id="panel3" role="tabpanel" aria-labelledby="tab3" hidden>
+          <p>Content for Tab 3</p>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/scripts/index.ts"></script>
+  </body>
+</html>
