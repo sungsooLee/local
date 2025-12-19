@@ -14,9 +14,10 @@ export default defineConfig({
     outDir: "../dist", // 빌드 결과물 위치
     rollupOptions: {
       input: {
-        main: resolve(__dirname, "src/pages/index.html"),
+        main: resolve(__dirname, "src/index.html"), // 루트 index.html
+        pages: resolve(__dirname, "src/pages/index.html"), // 실제 페이지
       },
     },
   },
-  base: "/local/pages/",
+  base: "/local/",
 });
