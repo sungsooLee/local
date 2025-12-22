@@ -39,6 +39,11 @@ export function setActiveTab(index: number): void {
   }
 }
 
+// 👇 개발용 노출
+if (import.meta.env?.DEV ?? true) {
+  (window as any).setActiveTab = setActiveTab;
+}
+
 /**
  * 🔹 이벤트 초기화 (1번만)
  */
