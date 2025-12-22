@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tab</title>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="accordion" data-single-open="false">
+        <div class="accordion-item" data-open="true">
+          <button class="accordion-header">제목 1</button>
+          <div class="accordion-content">
+            <p>내용 1</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header">제목 2</button>
+          <div class="accordion-content">
+            <p>내용 2</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/scripts/index.ts"></script>
+    <script type="module">
+      import "../scripts/accordion";
+    </script>
+  </body>
+</html>

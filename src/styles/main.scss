@@ -1,5 +1,6 @@
 @use "./variables";
 @use "./tab";
+@use "./accordion";
 
 body {
   background: variables.$bg-color;
