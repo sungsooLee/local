@@ -1,29 +1,69 @@
-document.addEventListener("click", (e) => {
-  // 클릭한 요소가 [role="tab"]인지 확인
-  const tab = (e.target as HTMLElement).closest(
-    '[role="tab"]'
-  ) as HTMLButtonElement | null;
-  if (!tab) return;
+/**
+ * 내부 공통 탭 활성화 처리
+ */
+function applyTabState(root: HTMLElement, activeTab: HTMLButtonElement) {
+  const tabs = root.querySelectorAll<HTMLButtonElement>('[role="tab"]');
+  const panels = root.querySelectorAll<HTMLElement>('[role="tabpanel"]');
 
-  // 해당 탭이 속한 .tabs 컨테이너 찾기
-  const root = tab.closest(".tabs") as HTMLElement | null;
-  if (!root) return;
-
-  const tabs = Array.from(
-    root.querySelectorAll('[role="tab"]')
-  ) as HTMLButtonElement[];
-  const panels = Array.from(
-    root.querySelectorAll('[role="tabpanel"]')
-  ) as HTMLElement[];
-
-  // aria-selected 업데이트
-  tabs.forEach((t) => {
-    t.setAttribute("aria-selected", String(t === tab));
-    t.tabIndex = t === tab ? 0 : -1; // 이제 안전하게 사용 가능
+  tabs.forEach((tab) => {
+    const isActive = tab === activeTab;
+    tab.setAttribute("aria-selected", String(isActive));
+    tab.tabIndex = isActive ? 0 : -1;
   });
 
-  // 패널 표시/숨김
   panels.forEach((panel) => {
-    panel.hidden = panel.id !== tab.getAttribute("aria-controls"); // 안전하게 사용 가능
+    panel.hidden = panel.id !== activeTab.getAttribute("aria-controls");
   });
-});
+}
+
+/**
+ * 🔹 외부에서 사용하는 단일 API
+ * 사용법: setActiveTab(0 | 1 | 2 ...)
+ */
+export function setActiveTab(index: number): void {
+  const run = () => {
+    const root = document.querySelector<HTMLElement>(".tabs");
+    if (!root) return;
+
+    const tabs = root.querySelectorAll<HTMLButtonElement>('[role="tab"]');
+    const tab = tabs[index];
+    if (!tab) return;
+
+    applyTabState(root, tab);
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", run, { once: true });
+  } else {
+    run();
+  }
+}
+
+/**
+ * 🔹 이벤트 초기화 (1번만)
+ */
+function initTabs() {
+  // 클릭 이벤트
+  document.addEventListener("click", (e) => {
+    const tab = (e.target as HTMLElement).closest(
+      '[role="tab"]'
+    ) as HTMLButtonElement | null;
+    if (!tab) return;
+
+    const root = tab.closest(".tabs") as HTMLElement | null;
+    if (!root) return;
+
+    applyTabState(root, tab);
+  });
+
+  // URL 파라미터 초기 탭
+  const params = new URLSearchParams(window.location.search);
+  const index = Number(params.get("tab"));
+
+  if (!Number.isNaN(index)) {
+    setActiveTab(index);
+  }
+}
+
+// 초기화 실행
+initTabs();

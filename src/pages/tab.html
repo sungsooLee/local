@@ -10,10 +10,10 @@
         <div class="tabs_menu">
           <button
             role="tab"
-            aria-selected="true"
+            aria-selected="false"
             aria-controls="panel1"
             id="tab1"
-            tabindex="0"
+            tabindex="-1"
           >
             Tab 1
           </button>
@@ -49,5 +49,16 @@
       </div>
     </div>
     <script type="module" src="/scripts/index.ts"></script>
+    <script type="module">
+      import { setActiveTab } from "../scripts/tab";
+
+      // setTimeout(() => {
+      //   setActiveTab(1);
+      // }, 50);
+
+      document.addEventListener("DOMContentLoaded", () => {
+        setActiveTab(1);
+      });
+    </script>
   </body>
 </html>
